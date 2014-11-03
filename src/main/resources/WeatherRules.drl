@@ -1,0 +1,21 @@
+dialect "mvel"
+
+import org.kunicki.scaladrools.model.*
+
+global org.slf4j.Logger logger
+
+rule "Too Hot"
+   when
+      temp: Temperature( value > 85 )
+   then
+      insert(new TooHigh(temp))
+      logger.info("{}F is too hot", temp.value)
+end
+
+rule "Too Cold"
+   when
+      temp: Temperature( value < 32 )
+   then
+      insert(new TooLow(temp))
+      logger.info("{}F is too cold", temp.value)
+end
